@@ -10,7 +10,8 @@
 #define TrajectoryPlanner_hpp
 
 #include <stdio.h>
-#include "Vector3.hpp"
+//#include "Vector3.hpp"
+#include "Math.h"
 
 class TrajectoryPlanner
 {
@@ -18,13 +19,11 @@ public:
     TrajectoryPlanner(){}
     Trajectory CalculatePath(const Vector3& startPoint, const Vector3& startPointDerivative,
                              const Vector3& endPoint, const Vector3& endPointDerivative)
-    {
-        Vector3 x0(startPoint);
-        Vector3 x2(endPoint);
-        Vector3 x0p(startPointDerivative);
-        Vector3 x2p(endPointDerivative);
-        
-        return Trajectory(x0p, x2 * 3.0f - x2p - x0p * 2.0f, x2p + x0p - x2 * 2.0f);
+    {        
+        return Trajectory(startPoint,
+                          startPointDerivative,
+                          endPoint * 3.0f - endPointDerivative - startPointDerivative * 2.0f,
+                          endPointDerivative + startPointDerivative - endPoint * 2.0f);
     }
 private:
     
